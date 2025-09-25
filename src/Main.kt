@@ -9,10 +9,10 @@ fun main() {
 fun menu() {
     do {
         println("\n--- Menú de Gestión de Nómina ---")
-        println("1. Listar empleados")
+        println("1. Lista de empleados")
         println("2. Agregar empleado")
         println("3. Generar liquidación por RUT")
-        println("4. Listar liquidaciones")
+        println("4. Lista de liquidaciones")
         println("5. Filtrar empleados por AFP y ordenar por sueldo líquido")
         println("6. Eliminar empleado")
         println("7. Salir")
@@ -26,14 +26,14 @@ fun menu() {
             5 -> filtrarYOrdenarPorAfp()
             6 -> eliminarEmpleado()
             7 -> return
-            else -> println("Opción no válida. Intente de nuevo.")
+            else -> println("Opción no válida. Intente nuevamente.")
         }
     } while (true)
 }
 
 fun listarEmpleados() {
     if (Repositorio.empleados.isEmpty()) {
-        println("No hay empleados registrados.")
+        println("No existen empleados registrados.")
         return
     }
     println("\n--- Lista de Empleados ---")
@@ -44,11 +44,11 @@ fun listarEmpleados() {
 
 fun agregarEmpleado() {
     println("\n--- Agregar Nuevo Empleado ---")
-    print("Ingrese RUT: ")
+    print("Ingrese el RUT: ")
     val rut = readln()
-    print("Ingrese Nombre: ")
+    print("Ingrese el Nombre: ")
     val nombre = readln()
-    print("Ingrese Sueldo Base: ")
+    print("Ingrese el Sueldo Base: ")
     val sueldoBase = readln().toDoubleOrNull() ?: 0.0
 
     println("Seleccione AFP:")
@@ -86,7 +86,7 @@ fun generarLiquidacion() {
     val empleado = Repositorio.empleados.find { it.rut == rut }
 
     if (empleado == null) {
-        println("Empleado no encontrado.")
+        println("No se encontró el empleado.")
         return
     }
 
@@ -144,7 +144,7 @@ fun eliminarEmpleado() {
     val empleadoAEliminar = Repositorio.empleados.find { it.rut == rut }
 
     if (empleadoAEliminar == null) {
-        println("Empleado no encontrado.")
+        println("No se encontró el empleado.")
         return
     }
 
