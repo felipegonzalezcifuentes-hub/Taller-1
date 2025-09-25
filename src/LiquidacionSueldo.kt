@@ -1,4 +1,4 @@
-// Represents a payroll calculation for an employee.
+// Operaciones para los calculos de tasa
 data class LiquidacionSueldo(
     val periodo: String,
     val empleado: Empleado,

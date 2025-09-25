@@ -1,4 +1,4 @@
-// Represents an employee with personal and employment details.
+// Declara los datos de la persona
 data class Empleado(
     val rut: String,
     val nombre: String,

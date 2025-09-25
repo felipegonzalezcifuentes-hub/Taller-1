@@ -1,4 +1,4 @@
-// Represents a physical address.
+// Declara las direcciones
 data class Direccion(
     val calle: String,
     val numero: Int,

@@ -1,4 +1,4 @@
-// Singleton object to act as a simple in-memory database.
+// Actua como objeto de memoria
 object Repositorio {
     val afps: MutableList<AFP> = mutableListOf(
         AFP("Habitat", 0.1127),
