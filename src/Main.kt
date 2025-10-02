@@ -7,6 +7,7 @@ fun main() {
 }
 
 fun menu() {
+    cargarDatosDePrueba()
     do {
         println("\n--- Menú de Gestión de Nómina ---")
         println("1. Lista de empleados")
@@ -24,8 +25,9 @@ fun menu() {
             3 -> generarLiquidacion()
             4 -> listarLiquidaciones()
             5 -> filtrarYOrdenarPorAfp()
-            6 -> eliminarEmpleado()
-            7 -> return
+            6 -> cargarDatosDePrueba()
+            7 -> eliminarEmpleado()
+            8 -> return
             else -> println("Opción no válida. Intente nuevamente.")
         }
     } while (true)
@@ -137,6 +139,8 @@ fun filtrarYOrdenarPorAfp() {
     }
 }
 
+
+
 fun eliminarEmpleado() {
     println("\n--- Eliminar Empleado ---")
     print("Ingrese el RUT del empleado a eliminar: ")
@@ -150,4 +154,41 @@ fun eliminarEmpleado() {
 
     Repositorio.empleados.remove(empleadoAEliminar)
     println("Empleado eliminado exitosamente.")
+}
+fun cargarDatosDePrueba() {
+    println("Cargando datos de prueba...")
+
+    val afpModelo = Repositorio.afps.find { it.nombre == "Modelo" }!!
+    val afpHabitat = Repositorio.afps.find { it.nombre == "Habitat" }!!
+
+    val emp1 = Empleado(
+        rut = "21.962.832-3", nombre = "Felipe Tirado", sueldoBase = 800000.0, afp = afpModelo,
+        direccion = Direccion("13 norte", 3675, "Talca", "Maule")
+    )
+    val emp2 = Empleado(
+        rut = "11.101.010-K", nombre = "Lionel Scaloni", sueldoBase = 2500000.0, afp = afpHabitat,
+        direccion = Direccion("Mejor del mundo", 10, "Talca", "Maule"),
+        bonosImponibles = 500000.0
+    )
+    val emp3 = Empleado(
+        rut = "22.014.246-6", nombre = "Pupi Galarce", sueldoBase = 5000000.0, afp = afpModelo,
+        direccion = Direccion("2 Norte", 1, "Talca", "Maule"),
+        bonosNoImponibles = 1000000.0
+    )
+
+    Repositorio.empleados.clear()
+    Repositorio.empleados.addAll(listOf(emp1, emp2, emp3))
+
+
+    val periodoActual = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
+
+    Repositorio.liquidaciones.clear()
+    Repositorio.liquidaciones.add(LiquidacionSueldo.calcular(periodoActual, emp1))
+    Repositorio.liquidaciones.add(LiquidacionSueldo.calcular(periodoActual, emp2))
+    Repositorio.liquidaciones.add(LiquidacionSueldo.calcular(periodoActual, emp3))
+
+
+    println(" ¡Datos cargados exitosamente!")
+    println("   - Empleados en el repositorio: ${Repositorio.empleados.size}")
+    println("   - Liquidaciones generadas: ${Repositorio.liquidaciones.size}")
 }
