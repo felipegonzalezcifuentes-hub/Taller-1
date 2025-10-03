@@ -20,14 +20,23 @@ data class LiquidacionSueldo(
             tasaSalud: Double = TASA_SALUD,
             tasaCesantia: Double = TASA_CESANTIA
         ): LiquidacionSueldo {
+
+            // Calculo de montos base
             val imponible = empleado.sueldoBase + empleado.bonosImponibles
             val noImponible = empleado.bonosNoImponibles
+
+            // Calculo de descuentos
             val descAfp = imponible * empleado.afp.tasa
             val descSalud = imponible * tasaSalud
             val descCesantia = imponible * tasaCesantia
+
+            // Suma de descuentos
             val totalDescuentos = descAfp + descSalud + descCesantia
+
+            // calculo del sueldo líquido final
             val sueldoLiquido = imponible + noImponible - totalDescuentos
 
+            // Se actualiza directamente el sueldo líquido del empleado en memoria
             empleado.sueldoLiquido = sueldoLiquido // Update employee's liquid salary
 
             return LiquidacionSueldo(

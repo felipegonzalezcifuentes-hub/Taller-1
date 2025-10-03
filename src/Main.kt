@@ -7,6 +7,7 @@ fun main() {
 }
 
 fun menu() {
+    // se cargan los empleados y las liquidaciones de prueba
     cargarDatosDePrueba()
     do {
         println("\n--- Menú de Gestión de Nómina ---")
@@ -19,6 +20,7 @@ fun menu() {
         println("7. Salir")
         print("Seleccione una opción: ")
 
+        // se lee la opción ingresada y se ejecuta la acción correspondiente
         when (readlnOrNull()?.toIntOrNull()) {
             1 -> listarEmpleados()
             2 -> agregarEmpleado()
@@ -34,6 +36,7 @@ fun menu() {
 }
 
 fun listarEmpleados() {
+    // aquí se muestra todos los empleados registrados
     if (Repositorio.empleados.isEmpty()) {
         println("No existen empleados registrados.")
         return
@@ -45,6 +48,7 @@ fun listarEmpleados() {
 }
 
 fun agregarEmpleado() {
+    // aquí se permite ingresar un nuevo empleado manualmente
     println("\n--- Agregar Nuevo Empleado ---")
     print("Ingrese el RUT: ")
     val rut = readln()
@@ -66,6 +70,7 @@ fun agregarEmpleado() {
         Repositorio.afps[0]
     }
 
+    //se ingresa dirección del usuario
     print("Ingrese la dirección: ")
     val calle = readln()
     print("Ingrese número de la dirección: ")
@@ -82,6 +87,7 @@ fun agregarEmpleado() {
 }
 
 fun generarLiquidacion() {
+    // se genera una liquidación de sueldo a partir del ruyt del empleado
     println("\n--- Generar Liquidación de Sueldo ---")
     print("Ingrese el RUT del empleado: ")
     val rut = readln()
@@ -101,6 +107,7 @@ fun generarLiquidacion() {
 }
 
 fun listarLiquidaciones() {
+    // se lista todas las liquidaciones generadas
     if (Repositorio.liquidaciones.isEmpty()) {
         println("No hay liquidaciones generadas.")
         return
@@ -109,11 +116,13 @@ fun listarLiquidaciones() {
     Repositorio.liquidaciones.forEach { liquidacion ->
         println("Periodo: ${liquidacion.periodo}, Empleado: ${liquidacion.empleado.nombre}, Sueldo Líquido: ${liquidacion.sueldoLiquido}")
     }
+    // Se calcula el total de descuentos de todas las liquidaciones
     val totalDescuentosNomina = Repositorio.liquidaciones.sumOf { it.totalDescuentos }
     println("\nTotal de descuentos de la nómina: $totalDescuentosNomina")
 }
 
 fun filtrarYOrdenarPorAfp() {
+    // filtra empleados por AFP seleccionada y los ordena por sueldo líquido
     println("\n--- Filtrar Empleados por AFP ---")
     println("Seleccione AFP para filtrar:")
     Repositorio.afps.forEachIndexed { index, afp ->
@@ -126,6 +135,9 @@ fun filtrarYOrdenarPorAfp() {
         return
     }
     val afpSeleccionada = Repositorio.afps[afpIndex]
+
+    // Se filtran empleados de la AFP elegida y se ordenan de mayor a menor sueldo líquido
+
     val empleadosFiltrados = Repositorio.empleados.filter { it.afp == afpSeleccionada }.sortedByDescending { it.sueldoLiquido }
 
     if (empleadosFiltrados.isEmpty()) {
@@ -156,11 +168,13 @@ fun eliminarEmpleado() {
     println("Empleado eliminado exitosamente.")
 }
 fun cargarDatosDePrueba() {
+    // carga un set de empleados y liquidaciones predefinidas para pruebas
     println("Cargando datos de prueba...")
 
     val afpModelo = Repositorio.afps.find { it.nombre == "Modelo" }!!
     val afpHabitat = Repositorio.afps.find { it.nombre == "Habitat" }!!
 
+    // Se crean empleados de prueba
     val emp1 = Empleado(
         rut = "21.962.832-3", nombre = "Felipe Tirado", sueldoBase = 800000.0, afp = afpModelo,
         direccion = Direccion("13 norte", 3675, "Talca", "Maule")
